@@ -1,0 +1,30 @@
+{
+  "name": "@sabasayer/sync-data",
+  "version": "1.0.0",
+  "description": "Sync data between classes, functions",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sabasayer/sync-data.git"
+  },
+  "keywords": [
+    "typescript","sync","data","sync-data"
+  ],
+  "author": "Salih Baki Sayer",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^3.7.4",
+    "@types/jest": "^24.0.24",
+    "jest": "^24.9.0",
+    "ts-jest": "^24.2.0"
+  },
+  "bugs": {
+    "url": "https://github.com/sabasayer/sync-data/issues"
+  },
+  "homepage": "https://github.com/sabasayer/sync-data#readme"
+}
