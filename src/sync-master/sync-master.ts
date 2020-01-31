@@ -16,10 +16,7 @@ export abstract class SyncMaster {
         if (!this.store[key]) return;
 
         let index = this.store[key].indexOf(owner);
-        console.log(index);
         if (index > -1) this.store[key].splice(index, 1);
-
-        console.log('index',this.store[key]);
     }
 
     static effect<T>(
@@ -28,34 +25,38 @@ export abstract class SyncMaster {
     ) {
         let syncables = this.store[key];
 
-        if (!syncables?.length) return;
-
-        switch (options?.effect) {
-            case EnumEffect.Added:
-                syncables.forEach((syncable: ISyncable<T>) => {
-                    SyncMaster.onAdded(syncable, options.data);
-                });
-                break;
-            case EnumEffect.Updated:
-                syncables.forEach((syncable: ISyncable<T>) => {
-                    SyncMaster.onUpdated(syncable, options.data);
-                });
-                break;
-            case EnumEffect.Removed:
-                syncables.forEach((syncable: ISyncable<T>) => {
-                    SyncMaster.onRemoved(syncable, options.data);
-                });
-                break;
-            default:
-                syncables.forEach((syncable: ISyncable<T>) => {
-                    SyncMaster.onSync(syncable, options?.data);
-                });
-                break;
+        if (syncables?.length) {
+            switch (options?.effect) {
+                case EnumEffect.Added:
+                    syncables.forEach((syncable: ISyncable<T>) => {
+                        SyncMaster.onAdded(syncable, options.data);
+                    });
+                    break;
+                case EnumEffect.Updated:
+                    syncables.forEach((syncable: ISyncable<T>) => {
+                        SyncMaster.onUpdated(syncable, options.data);
+                    });
+                    break;
+                case EnumEffect.Removed:
+                    syncables.forEach((syncable: ISyncable<T>) => {
+                        SyncMaster.onRemoved(syncable, options.data);
+                    });
+                    break;
+                default:
+                    syncables.forEach((syncable: ISyncable<T>) => {
+                        SyncMaster.onSync(syncable, options?.data);
+                    });
+                    break;
+            }
         }
 
         options?.sideEffectedKeys?.forEach(sideEffectedKey => {
             SyncMaster.effect(sideEffectedKey, { effect: options.effect });
         });
+    }
+
+    static clear() {
+        this.store = {};
     }
 
     private static checkSyncable<T>(syncable: ISyncable<T>, data?: T) {

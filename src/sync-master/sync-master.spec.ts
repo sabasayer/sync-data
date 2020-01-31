@@ -85,6 +85,16 @@ describe("Sync Master", () => {
         expect(instance2.items).toEqual([1, 2, 3, 5, 6, 7])
     })
 
+    test("shide effects should work when there isnt any registered main syncable",()=>{
+        SyncMaster.clear();
+
+        let instance2 = new Test2();
+        
+        SyncMaster.effect("test",{effect:EnumEffect.Added,data:122,sideEffectedKeys:["test2"]});
+
+        expect(instance2.items).toEqual([1, 2, 3, 5, 6, 7])
+    })
+
     test("unregister should work",()=>{
         let instance1 = new Test1();
 
