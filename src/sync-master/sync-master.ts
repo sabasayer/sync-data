@@ -1,6 +1,12 @@
 import { ISyncable } from "../syncable/syncable.interface";
 import { EnumEffect } from "./effect.enum";
 
+export interface SyncMasterEffectOptions<T> {
+    effect?: EnumEffect;
+    data?: T;
+    sideEffectedKeys?: string[];
+}
+
 export abstract class SyncMaster {
     private static store: { [key: string]: ISyncable<any>[] } = {};
 
@@ -21,7 +27,7 @@ export abstract class SyncMaster {
 
     static effect<T>(
         key: string,
-        options?: { effect?: EnumEffect; data?: T; sideEffectedKeys?: string[] }
+        options?: SyncMasterEffectOptions<T>
     ) {
         let syncables = this.store[key];
 

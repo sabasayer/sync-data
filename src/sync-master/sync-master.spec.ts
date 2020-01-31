@@ -1,6 +1,7 @@
 import { SyncMaster } from "./sync-master";
 import { Syncable } from "../syncable/syncable";
 import { EnumEffect } from "./effect.enum";
+import {effectsSync,effects} from "../decorators/effects.decorator"
 
 describe("Sync Master", () => {
     class Test1 extends Syncable<number> {
@@ -44,6 +45,22 @@ describe("Sync Master", () => {
 
         syncCondition(item: number) {
             return item < 150;
+        }
+    }
+
+    class EffectTestClass {
+       @effects("test",{effect:EnumEffect.Added})
+       static async runAddedEffect(value:number){
+            return new Promise((resolve)=>{
+                setTimeout(()=>{
+                    resolve(value);
+                },1000)
+            })
+        }
+
+        @effectsSync("test",{effect:EnumEffect.Added})
+        static runAddedEffectSync(value:number){
+            return value
         }
     }
 
@@ -101,6 +118,16 @@ describe("Sync Master", () => {
         SyncMaster.unregister("test",instance1);
         SyncMaster.effect("test", { effect: EnumEffect.Added, data: 250 });
         expect(instance1.items).toEqual([1, 2]);
+    })
 
+
+    test("decorator should work for sync and async methods",async ()=>{
+        let instance1 = new Test1();
+        let res1 = await EffectTestClass.runAddedEffect(351);
+        let res2 = EffectTestClass.runAddedEffectSync(352);
+
+        expect(instance1.items).toEqual([1,2,351,352])
+        expect(res1).toEqual(351)
+        expect(res2).toEqual(352)
     })
 });
