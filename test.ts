@@ -28,7 +28,7 @@ class Test1 extends Syncable<number> {
     }
 }
 
-class Test2 extends Syncable<number> implements ISyncable<number> {
+class Test2 extends Syncable<number>{
     items: number[] = [1, 2, 3,5];
 
     constructor(){
@@ -53,7 +53,7 @@ class Test2 extends Syncable<number> implements ISyncable<number> {
     let test1 = new Test1();
     let test2 = new Test2();
 
-    SyncMaster.effect("test", { effect: EnumEffect.Added, data: 120,sideEffectedKeys:["test2"] });
+    SyncMaster.effect("test",{effect:EnumEffect.Added,data:250});
 
 
     let test = document.getElementById("test");
