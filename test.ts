@@ -29,10 +29,10 @@ class Test1 extends Syncable<number> {
 }
 
 class Test2 extends Syncable<number> implements ISyncable<number> {
-    items: number[] = [1, 2, 3,5,6,7];
+    items: number[] = [1, 2, 3,5];
 
     constructor(){
-        super("test")
+        super("test2")
     }
 
     async get() {
@@ -53,8 +53,8 @@ class Test2 extends Syncable<number> implements ISyncable<number> {
     let test1 = new Test1();
     let test2 = new Test2();
 
-    SyncMaster.effect("test", { effect: EnumEffect.Added, data: 120 });
-    SyncMaster.effect("test", { effect: EnumEffect.Added, data: 151 });
+    SyncMaster.effect("test", { effect: EnumEffect.Added, data: 120,sideEffectedKeys:["test2"] });
+
 
     let test = document.getElementById("test");
     if (test) {

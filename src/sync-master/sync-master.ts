@@ -12,7 +12,10 @@ export abstract class SyncMaster {
         this.store[key].push(owner);
     }
 
-    static effect<T>(key: string,options?:{effect?: EnumEffect,data?: T}) {
+    static effect<T>(
+        key: string,
+        options?: { effect?: EnumEffect; data?: T; sideEffectedKeys?: string[] }
+    ) {
         let syncables = this.store[key];
 
         if (!syncables?.length) return;
@@ -39,14 +42,22 @@ export abstract class SyncMaster {
                 });
                 break;
         }
+
+        options?.sideEffectedKeys?.forEach(sideEffectedKey => {
+            SyncMaster.effect(sideEffectedKey, { effect: options.effect });
+        });
     }
 
-    private static checkSyncable<T>(syncable: ISyncable<T>, data?: T){
-       return !syncable.syncCondition || !data || syncable.syncCondition?.call(syncable, data)
+    private static checkSyncable<T>(syncable: ISyncable<T>, data?: T) {
+        return (
+            !syncable.syncCondition ||
+            !data ||
+            syncable.syncCondition?.call(syncable, data)
+        );
     }
 
     private static onAdded<T>(syncable: ISyncable<T>, data?: T) {
-        if (!SyncMaster.checkSyncable(syncable,data)) return;
+        if (!SyncMaster.checkSyncable(syncable, data)) return;
 
         if (syncable.add && data) syncable.add?.call(syncable, data);
         else syncable.get.call(syncable);
@@ -63,7 +74,7 @@ export abstract class SyncMaster {
     }
 
     private static onSync<T>(syncable: ISyncable<T>, data?: T) {
-        if (!SyncMaster.checkSyncable(syncable,data)) return;
+        if (!SyncMaster.checkSyncable(syncable, data)) return;
         syncable.get.call(syncable);
     }
 }
