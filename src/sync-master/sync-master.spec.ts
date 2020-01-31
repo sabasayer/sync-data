@@ -84,4 +84,13 @@ describe("Sync Master", () => {
 
         expect(instance2.items).toEqual([1, 2, 3, 5, 6, 7])
     })
+
+    test("unregister should work",()=>{
+        let instance1 = new Test1();
+
+        SyncMaster.unregister("test",instance1);
+        SyncMaster.effect("test", { effect: EnumEffect.Added, data: 250 });
+        expect(instance1.items).toEqual([1, 2]);
+
+    })
 });

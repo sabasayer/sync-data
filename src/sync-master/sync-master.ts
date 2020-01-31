@@ -12,6 +12,16 @@ export abstract class SyncMaster {
         this.store[key].push(owner);
     }
 
+    static unregister<T>(key: string, owner: ISyncable<T>) {
+        if (!this.store[key]) return;
+
+        let index = this.store[key].indexOf(owner);
+        console.log(index);
+        if (index > -1) this.store[key].splice(index, 1);
+
+        console.log('index',this.store[key]);
+    }
+
     static effect<T>(
         key: string,
         options?: { effect?: EnumEffect; data?: T; sideEffectedKeys?: string[] }

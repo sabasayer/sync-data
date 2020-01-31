@@ -53,8 +53,8 @@ class Test2 extends Syncable<number>{
     let test1 = new Test1();
     let test2 = new Test2();
 
+    SyncMaster.unregister("test",test1);
     SyncMaster.effect("test",{effect:EnumEffect.Added,data:250});
-
 
     let test = document.getElementById("test");
     if (test) {
