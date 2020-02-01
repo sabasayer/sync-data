@@ -68,6 +68,15 @@ To trigger registered classes methods use :
 SyncMaster.effect("test", { effect: EnumEffect.Added, data: 120,sideEffectedKeys:["test2","test3"] });
 ```
 
+or use decorators
+
+```
+@effectsSync("test", { effect: EnumEffect.Added })
+
+// For async functions 
+@effects("test", { effect: EnumEffect.Added })
+```
+
 first argument is the key that Syncable function called at constructor.
 This will trigger add function if there is any. 
 If not get function will be triggered. 
