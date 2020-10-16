@@ -20,8 +20,9 @@ export function effectsSync<T>(
             let res = originalMethod.apply(this, args);
             if (res) {
                 let clonedOptions = cloneDeep(options);
+                
                 clonedOptions.data = clonedOptions.data ?? res;
-                SyncMaster.effect(key, options);
+                SyncMaster.effect(key, clonedOptions);
             }
 
             return res;
@@ -48,7 +49,7 @@ export function effects<T>(
                 let clonedOptions = cloneDeep(options);
 
                 clonedOptions.data = clonedOptions.data ?? res;
-                SyncMaster.effect(key, options);
+                SyncMaster.effect(key, clonedOptions);
             }
 
             return res;
