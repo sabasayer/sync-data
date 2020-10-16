@@ -3,6 +3,8 @@ import {
     SyncMaster
 } from "../sync-master/sync-master";
 
+import cloneDeep from 'lodash/cloneDeep';
+
 export function effectsSync<T>(
     key: string,
     options: SyncMasterEffectOptions<T>
@@ -17,7 +19,8 @@ export function effectsSync<T>(
         descriptor.value = function(...args: any[]) {
             let res = originalMethod.apply(this, args);
             if (res) {
-                options.data = options.data ?? res;
+                let clonedOptions = cloneDeep(options);
+                clonedOptions.data = clonedOptions.data ?? res;
                 SyncMaster.effect(key, options);
             }
 
@@ -42,7 +45,9 @@ export function effects<T>(
         descriptor.value = async function(...args: any[]) {
             let res = await originalMethod.apply(this, args);
             if (res) {
-                options.data = options.data ?? res;
+                let clonedOptions = cloneDeep(options);
+
+                clonedOptions.data = clonedOptions.data ?? res;
                 SyncMaster.effect(key, options);
             }
 

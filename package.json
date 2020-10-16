@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc",
     "test": "jest",
-    "serve":"parcel index.html"
+    "serve": "parcel index.html"
   },
   "repository": {
     "type": "git",
@@ -21,8 +21,12 @@
   ],
   "author": "Salih Baki Sayer",
   "license": "ISC",
+  "dependencies": {
+    "lodash.clonedeep": "4.5.0"
+  },
   "devDependencies": {
     "typescript": "^3.7.4",
+    "@types/lodash.clonedeep": "^4.5.6",
     "@types/jest": "^24.0.24",
     "jest": "^24.9.0",
     "ts-jest": "^24.2.0",
